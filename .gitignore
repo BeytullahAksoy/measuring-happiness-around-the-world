@@ -150,6 +150,8 @@ cython_debug/
 .mp4
 .mp3
 .avi
+#models are big files
+.h5
 
 # Folders
 # PyCharm
