@@ -78,9 +78,10 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [ ] Detect and Track Faces
 - [ ] Detect Tiny Faces
 - [ ] Track Each Person and Extract Each Face One time
-- [ ] Develop ML Models Using Different Approach
-- [ ] Achieve High Accuracy On ML Models
-- [ ] Save Best ML Model and Run On The Dataset
+- [ ] Create a script to download images from Google
+- [ ] Achieve High Accuracy On Classification Model
+- [ ] Convert Classification Model and Face Extraction to Scripts
+- [ ] Packaging The Project
 - [ ] Write a Paper About World's Happiness
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
