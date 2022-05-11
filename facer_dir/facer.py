@@ -48,8 +48,8 @@ def get_image(img_path):
         img = img_path.copy()
 
     else:
-        raise ValueError("Invalid image input. Only file paths or a NumPy array accepted.")
-
+        #raise ValueError("Invalid image input. Only file paths or a NumPy array accepted.")
+        print("error occured")
     # Validate image shape
     if len(img.shape) != 3 or np.prod(img.shape) == 0:
         raise ValueError("Input image needs to have 3 channels at must not be empty.")
