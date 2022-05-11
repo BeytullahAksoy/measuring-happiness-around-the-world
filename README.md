@@ -75,14 +75,13 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- ROADMAP -->
 ## Project Goals
 
-- [ ] Detect and Track Faces
-- [ ] Detect Tiny Faces
-- [ ] Track Each Person and Extract Each Face One time
+- [x] Detect and Track Faces
+- [x] Detect Tiny Faces
+- [x] Track Each Person and Extract Each Face One time
+- [ ] Convert  Emotion Classification Model and Face Extraction to Scripts
 - [ ] Create a script to download images from Google
-- [ ] Achieve High Accuracy On Classification Model
-- [ ] Convert Classification Model and Face Extraction to Scripts
 - [ ] Packaging The Project
-- [ ] Write a Paper About World's Happiness
+- [ ] Write Project Documentation
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
 
