@@ -1,30 +1,24 @@
-from keras.models import load_model
-import numpy as np
-from PIL import Image, ImageOps
-from numpy import asarray
+import os
+from emotionclassification import predict
 
-def emotion_prediction(image_param):
+# Get the list of all files and directories
+path = "/home/beytu/measuring-happiness-around-the-world/facer_dir/istanbul/"
+dir_list = os.listdir(path)
+results = []
+predict.load_model_func()
 
-    image = Image.open(image_param)
-    image = ImageOps.grayscale(image)
-    image = image.resize((48, 48))
+for image in dir_list:
+    output = predict.predict(path+image)
+    if output[1]:
+        results.append(output[0])
 
-    numpydata = asarray(image).ravel()
+import json
 
-
-
-    model = load_model('Face_Emotion_detection.h5')
-
-    numpydata = numpydata.reshape(-1, 48, 48, 1)
-
-    predictions = model.predict(numpydata)
+with open('istanbul.txt', 'w') as filehandle:
+    json.dump(results, filehandle)
 
 
+print(results)
 
-    max_value = max(predictions[0])
-
-
-
-    return np.where(predictions[0] == max_value)[0][0]
 
 
