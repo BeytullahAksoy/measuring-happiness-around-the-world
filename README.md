@@ -78,8 +78,9 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [x] Detect and Track Faces
 - [x] Detect Tiny Faces
 - [x] Track Each Person and Extract Each Face One time
-- [x] Convert  Emotion Classification Model and Face Extraction to Scripts
-- [ ] Create a script to download images from Google
+- [x] Convert Emotion Classification Model and Face Extraction to Scripts
+- [ ] Visualization of Results
+- [ ] Flask Application of Results
 - [ ] Packaging The Project
 - [ ] Write Project Documentation
 
