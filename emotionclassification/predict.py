@@ -26,8 +26,8 @@ def predict(image_path):
     max_value = max(predictions)
     predicted_class = int(np.where(predictions == max_value)[0][0])
     predictions.sort()
-    if predictions[-1] >= predictions[-2] * 2 and predictions[-1] > 0.5:
-        high_prob = True
+
+    high_prob = True
 
 
     return  predicted_class,high_prob
