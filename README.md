@@ -80,8 +80,8 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [x] Track Each Person and Extract Each Face One time
 - [x] Convert Emotion Classification Model and Face Extraction to Scripts
 - [ ] Visualization of Results
-- [ ] Flask Application of Results
-- [ ] Packaging The Project
+- [ ] Streamlit Application
+- [ ] Deploy The Project
 - [ ] Write Project Documentation
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
