@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from emotionclassification import predict
 import json
-
+from visualization import multi_visualization,binary_visualization
 
 def save_faces(video_file):
 
@@ -108,18 +108,69 @@ https://sites.google.com/site/5kk73gpu2012/assignment/viola-jones-face-detection
 
 def main():
     delete_user_images()
-    st.title("Face & Video Analyze Tool :point_right: :point_left:")
+    st.title("Face Analyze and Extraction Platform")
 
 
-    activities = ["Home", "World Happiness Report" ,"Face Extraction from Image","Emotion Analyze in Video","Live Emotion Detection","Face Extraction from Video"]
-    choice = st.sidebar.selectbox("Pick something fun", activities)
+    activities = ["Home", "World Happiness Report" ,"Face Extraction from Image","Emotion Analyze in Video","Face Extraction from Video","About Models"]
+    choice = st.sidebar.selectbox("Pick an option", activities)
 
     if choice == "Home":
-        st.write("This is home.")
+
+        st.markdown("## World Happinnes Report Through AI")
+        st.markdown("""
+            Today, there are studies that reveal the happiness report in the world.
+            Which participants were selected? How were the participants evaluated? 
+            Did the participants make objective comments? Questions like these cast doubt on the accuracy of this report. 
+            
+
+            You can find the report [here](https://worldpopulationreview.com/country-rankings/happiest-countries-in-the-world)
+            If there are people laughing and having fun on the street in a city, you will feel that the level of happiness is high in that city. 
+            This study, on the other hand, aims to calculate the happiness index by looking at the facial expressions of people on the street, 
+            not by the declaration.To review the report please select World Happiness Report from left menu.
+            
+        """)
+        st.markdown("## Facial Emotion Analyze and Face Extraction from Images and Videos")
+        st.markdown("""
+                    Use the left menu to use the tools used in this study (face removal from video, emotion from pictures).
+
+                """)
+
+
+
+
 
     elif choice == "World Happiness Report":
-        pass
+        st.markdown("## World Happinnes Report Through AI")
+        st.markdown("""
+        
+        
+        It is  used two different ML models from emotion predicition.One is binary classifier(happy or not happy), and the other one is multiclass classifiers
+        (angry,disgust,happy,fear,sad,neutral,sad,surprise).
+        The binary model has 0.83% accuracy.
+        The multiclassifier model 0.69% accuracy.
+        
+        """)
+        option = st.selectbox(
+            'Select Model',
+            ('Multi-Class', 'Binary'))
 
+        if option == "Multi-Class":
+            if st.button('Show'):
+                total_df = multi_visualization("world_results/multi")
+                total_df = total_df.pivot_table('Count', ['City'], 'Emotion')
+                total_df["Happiness Rate"] = (total_df["happy"] * 100) / (total_df["angry"] + total_df["disgust"] + total_df["happy"] + total_df["fear"] + total_df["neutral"] + total_df["surprise"] + total_df["sad"])
+                st.dataframe(total_df.style.highlight_max(axis=0))
+
+
+        if option == "Binary":
+            if st.button('Show'):
+                total_df = binary_visualization("world_results/binary")
+                #st.dataframe(total_df.style.highlight_max(axis=0))
+                medals = total_df.pivot_table('Count',['City'],'Emotion')
+                medals =  medals.rename(index={"happy": "not happy", "not happy": "happy", "Happiness Rate": "Happiness Rate"})
+                medals["Happiness Rate"] = (medals["happy"]*100) /(medals["happy"] + medals["not happy"])
+                medals = medals.sort_values(by=['Happiness Rate'], ascending=False)
+                st.dataframe(medals)
     elif choice == "Face Extraction from Image":
 
 
@@ -303,8 +354,16 @@ def main():
 
 
 
-    elif choice == "Live Emotion Detection":
-        pass
+    elif choice == "About Models":
+        option = st.selectbox(
+            'Select Model',
+            ('CNN for Binary Classification', 'CNN for MultiClassification'))
+
+        if option == 'CNN for Binary Classification':
+            pass
+        elif option == 'CNN for MultiClassification':
+            pass
+
 
     elif choice == "Face Extraction from Video":
         delete_user_images()
