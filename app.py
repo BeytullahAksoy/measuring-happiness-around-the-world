@@ -4,7 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import cv2
 from extract_faces import face_extraction_from_video
-import emotion_predict
+import multiclass_emotion_classification
 from facer_dir import facer
 from PIL import Image
 import os, shutil
@@ -180,7 +180,11 @@ def main():
             # file_details = {"FileName":video_file.name,"FileType":video_file.type}
             # save_uploaded_file(video_file)
 
-            if st.button("Extract Faces"):
+            option = st.selectbox("Select a classification model",
+                ("Binary Classification",
+                "Multiclass Classification"))
+
+            if option == "Multiclass Classification":
                 save_faces(video_file)
                 path = "user_data/"
                 dir_list = os.listdir(path)
@@ -189,8 +193,54 @@ def main():
                 count = 0
                 for image in dir_list:
                     output = predict.predict(path + image)
-                    if output[1]:
-                        results.append(output[0])
+
+                    results.append(output)
+                    count += 1
+                    print(count)
+
+                import numpy as np
+                import pandas as pd
+
+                array = np.array(results)
+
+                unique, counts = np.unique(array, return_counts=True)
+
+                result = np.column_stack((unique, counts))
+                clean_data = [[item for item in row] for row in result]
+
+                # clean_data: [[294, 294], [981, 981]]
+
+                df = pd.DataFrame(clean_data, columns=("emotion","number"))
+                Subjects = {0: "angry",
+                            1: "disgust",
+                            2: "fear",
+                            3: "happy",
+                            4: "neutral",
+                            5: "sad",
+                            6: "surprise"
+                            }
+
+                df["emotion"] = df["emotion"].map(Subjects)
+
+                plost.bar_chart(data=df,
+                                bar='emotion', height=400, width=100,
+                                value=['number'],
+                                group=True)
+
+                with open('results/user_results.txt', 'w') as filehandle:
+                    json.dump(results, filehandle)
+
+            if option == "Binary Classification":
+                save_faces(video_file)
+                path = "user_data/"
+                dir_list = os.listdir(path)
+                results = []
+                predict.load_model_func()
+                count = 0
+                for image in dir_list:
+                    output = predict.predict(path + image)
+
+                    results.append(output)
                     count += 1
                     print(count)
 
@@ -227,6 +277,7 @@ def main():
                     json.dump(results, filehandle)
 
 
+
             def zip_directory(folder_path, zip_path):
                 with zipfile.ZipFile(zip_path, mode='w') as zipf:
                     len_dir_path = len(folder_path)
@@ -242,7 +293,7 @@ def main():
             with open("faces.zip", "rb") as fp:
 
                 btn = st.download_button(
-                    label="Download ZIP",
+                    label="Download Zipped Faces",
                     data=fp,
                     file_name="faces.zip",
                     mime="application/zip"
