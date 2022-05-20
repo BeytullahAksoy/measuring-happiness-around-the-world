@@ -52,6 +52,14 @@ Paris: 4981
 Tokyo: 2490
 And I tried these pictures on both my models. As a result of both models, Tokyo was the second from the last and Cairo the last happy city. Suicide rates are very high in Japan. Egypt is generally accepted as an underdeveloped country. h+Moods were mostly neutral in each city. p+People usually just walk down the street and show no emotion. These show that the result of the study makes sense.
 
+The results:
+with multiclass classifier model:
+![](https://i.ibb.co/NTQhg1T/results1.png)
+
+with binary classifier model:
+![](https://i.ibb.co/rQZwQ9h/results2.png)
+
+
 ### Outcome: Emotion Recognition Binary Classifier
 In my dataset, I used the happy pictures in fer2013 for the happy class and the other pictures for the not happy class.
 The model is valid for the project with an accuracy rate of 0.83.
