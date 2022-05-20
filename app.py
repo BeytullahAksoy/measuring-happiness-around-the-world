@@ -360,9 +360,23 @@ def main():
             ('CNN for Binary Classification', 'CNN for MultiClassification'))
 
         if option == 'CNN for Binary Classification':
-            pass
+
+            image = Image.open("images/binary_model.png")
+
+            st.image(image)
+            image2 = Image.open("images/accuracy_binary.png")
+            st.image(image2)
+            image3 = Image.open("images/loss_binary.png")
+            st.image(image3)
+
         elif option == 'CNN for MultiClassification':
-            pass
+            image = Image.open("images/multi_model.png")
+
+            st.image(image)
+            image2 = Image.open("images/accuracy_multi.png")
+            st.image(image2)
+            image3 = Image.open("images/loss_multi.png")
+            st.image(image3)
 
 
     elif choice == "Face Extraction from Video":
