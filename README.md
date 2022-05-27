@@ -107,5 +107,5 @@ Project Link: [GitHub](https://github.com/BeytullahAksoy/measuring-happiness-aro
 [linkedin-url]:https://www.linkedin.com/in/beytullah-aksoy-a08583149/
 
 ## References
-* [RetinaFace]([https://streamlit.io/](https://github.com/serengil/retinaface))
+* [RetinaFace](https://github.com/serengil/retinaface)
 
