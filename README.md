@@ -61,13 +61,13 @@ The aim of this project is to try to measure the emotional state and happiness l
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
 
 * [Convolutional Neural Networks](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 * [TensorFlow](https://www.tensorflow.org)
 * [Anaconda](https://www.anaconda.com/)
 * [OpenCV](https://opencv.org)
-
+* [Streamlit](https://streamlit.io/)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -79,10 +79,10 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [x] Detect Tiny Faces
 - [x] Track Each Person and Extract Each Face One time
 - [x] Convert Emotion Classification Model and Face Extraction to Scripts
-- [ ] Visualization of Results
-- [ ] Streamlit Application
+- [x] Visualization of Results
+- [x] Streamlit Application
 - [ ] Deploy The Project
-- [ ] Write Project Documentation
+- [x] Write Project Documentation
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
 
@@ -106,6 +106,6 @@ Project Link: [GitHub](https://github.com/BeytullahAksoy/measuring-happiness-aro
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]:https://www.linkedin.com/in/beytullah-aksoy-a08583149/
 
-
-
+## References
+* [RetinaFace]([https://streamlit.io/](https://github.com/serengil/retinaface))
 
