@@ -81,6 +81,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [x] Convert Emotion Classification Model and Face Extraction to Scripts
 - [x] Visualization of Results
 - [x] Streamlit Application
+- [x] Deployment
 - [x] Write Project Documentation
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
@@ -91,7 +92,8 @@ See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-arou
 
 ## Insallation
 -git clone https://github.com/BeytullahAksoy/measuring-happiness-around-the-world.git
-
+-pip install -r requirements.txt
+-streamlit run app.py
 
 
 <!-- CONTACT -->
@@ -106,6 +108,14 @@ Project Link: [GitHub](https://github.com/BeytullahAksoy/measuring-happiness-aro
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]:https://www.linkedin.com/in/beytullah-aksoy-a08583149/
 
+## References
+[RetinaFace](https://github.com/serengil/retinaface):Face Detection Tool
 
+[Facial Expression Recognition with Data Augmentation and Compact Feature Learning](https://ieeexplore.ieee.org/document/8451039)
+
+[Real Time Face Expression Recognition along with
+Balanced FER2013 Dataset using CycleGAN](https://thesai.org/Publications/ViewPaper?Volume=12&Issue=6&Code=IJACSA&SerialNo=17)
+## Deployment
+[Click](https://share.streamlit.io/beytullahaksoy/measuring-happiness-around-the-world/main/app.py):Streamlit Application Deployment
 
 
