@@ -11,6 +11,19 @@ from visualization import multi_visualization, binary_visualization
 import tempfile
 import numpy as np
 import pandas as pd
+import shutil
+def delete_user_images():
+    """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
+    folder = "user_data/"
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print("Failed to delete %s. Reason: %s" % (file_path, e))
 
 
 def save_faces(video_file):
@@ -59,6 +72,7 @@ def save_uploaded_file(uploadedfile):
 
 
 def main():
+    delete_user_images()
     st.title("Face Analyze and Extraction Platform")
     activities = [
         "Home",

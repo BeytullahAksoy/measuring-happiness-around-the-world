@@ -8,20 +8,8 @@ import cv2
 from facer_dir import facer_model
 from facer_dir import preprocess
 from facer_dir import postprocess
-import shutil
 
-def delete_user_images():
-    """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
-    folder = "user_data/"
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print("Failed to delete %s. Reason: %s" % (file_path, e))
+
 
 
 tf_version = int(tf.__version__.split(".")[0])
@@ -181,7 +169,6 @@ def detect_faces(img_path, threshold=0.9, model=None, allow_upscaling=True):
 
 
 def extract_faces(img_path, threshold=0.9, model=None, align=True, allow_upscaling=True):
-    delete_user_images()
     resp = []
     img = get_image(img_path)
     obj = detect_faces(img_path=img, threshold=threshold, model=model, allow_upscaling=allow_upscaling)
