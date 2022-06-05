@@ -52,7 +52,8 @@
 ## About The Project
 
 The aim of this project is to try to measure the emotional state and happiness levels of people in various cities of the world by detecting their facial expressions.
-
+This procejt also includes an Streamlit application.The application inlucdes the tools face extraction from video or image
+, emotion recognition from video.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -61,11 +62,10 @@ The aim of this project is to try to measure the emotional state and happiness l
 
 ### Built With
 
-
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [Convolutional Neural Networks](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 * [TensorFlow](https://www.tensorflow.org)
-* [Anaconda](https://www.anaconda.com/)
 * [OpenCV](https://opencv.org)
 * [Streamlit](https://streamlit.io/)
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -81,7 +81,6 @@ The aim of this project is to try to measure the emotional state and happiness l
 - [x] Convert Emotion Classification Model and Face Extraction to Scripts
 - [x] Visualization of Results
 - [x] Streamlit Application
-- [ ] Deploy The Project
 - [x] Write Project Documentation
 
 See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-around-the-world/issues) for a full list of proposed features (and known issues).
@@ -90,7 +89,8 @@ See the [open issues](https://github.com/BeytullahAksoy/measuring-happiness-arou
 
 
 
-
+## Insallation
+-git clone https://github.com/BeytullahAksoy/measuring-happiness-around-the-world.git
 
 
 
@@ -106,6 +106,6 @@ Project Link: [GitHub](https://github.com/BeytullahAksoy/measuring-happiness-aro
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]:https://www.linkedin.com/in/beytullah-aksoy-a08583149/
 
-## References
-* [RetinaFace](https://github.com/serengil/retinaface)
+
+
 
