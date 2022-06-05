@@ -72,6 +72,7 @@ def save_uploaded_file(uploadedfile):
 
 
 def main():
+
     st.title("Face Analyze and Extraction Platform")
     activities = [
         "Home",

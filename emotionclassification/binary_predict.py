@@ -18,8 +18,12 @@ def predict_b(image_path):
     numpydata = numpydata.reshape(-1, 48, 48, 1)
     predictions = model.predict(numpydata)
     predictions = predictions[0]
-    max_value = max(predictions)
-    predicted_class = int(np.where(predictions == max_value)[0][0])
+    print(predictions)
+    if predictions <=0.5:
+        return 0
+    else :
+        return 1
+
 
 
 
