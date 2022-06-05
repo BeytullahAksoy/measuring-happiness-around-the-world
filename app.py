@@ -35,7 +35,7 @@ def save_faces(video_file):
                     im = Image.fromarray(face)
                     im.save(f"user_data/person-{file}.jpeg")
                     file += 1
-            cv2.waitKey(1)
+           # cv2.waitKey()
         c += 1
     cap.release()
 
