@@ -45,7 +45,7 @@ def predict_b(image_path):
 
 def predict(image_path):
     """A function takes path of image and predicts emotion"""
-    model = load_model('../Face_Emotion_detection.h5')
+    model = load_model('./Face_Emotion_detection.h5')
     image = Image.open(image_path)
     image = ImageOps.grayscale(image)
     image = image.resize((48, 48))
