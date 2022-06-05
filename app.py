@@ -254,13 +254,9 @@ def main():
 
                     df = pd.DataFrame(clean_data, columns=("emotion", "number"))
                     Subjects = {
-                        0: "angry",
-                        1: "disgust",
-                        2: "fear",
-                        3: "happy",
-                        4: "neutral",
-                        5: "sad",
-                        6: "surprise",
+                        0: "happy",
+                        1: "not happy",
+
                     }
 
                     df["emotion"] = df["emotion"].map(Subjects)
