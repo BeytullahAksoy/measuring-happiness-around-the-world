@@ -4,9 +4,8 @@ import pandas as pd
 import numpy as np
 
 
+
 def multi_visualization(file_path):
-
-
     # with open(file_path) as f:
     #     lines = f.readlines()
     #     str = lines[0]
@@ -55,6 +54,7 @@ def multi_visualization(file_path):
     # plot = result_df.plot.bar(x='City', y='Count', rot=0)
     return result_df
 
+
 def binary_visualization(file_path):
 
 
@@ -67,7 +67,7 @@ def binary_visualization(file_path):
     files = os.listdir(file_path)
     cities_name = []
     cities_count = []
-    emotions = ["not happy","happy"]
+    emotions = ["happy","not happy"]
     result_count = []
     for file in files:
         with open(file_path+"/"+file) as f:

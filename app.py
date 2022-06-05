@@ -3,7 +3,6 @@ import streamlit as st
 import cv2
 from facer_dir import facer
 from PIL import Image
-import shutil
 import os
 import zipfile
 from emotionclassification import predict
@@ -50,18 +49,6 @@ def zipdir(path, ziph):
             )
 
 
-def delete_user_images():
-    """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
-    folder = "user_data/"
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print("Failed to delete %s. Reason: %s" % (file_path, e))
 
 
 def save_uploaded_file(uploadedfile):
@@ -72,7 +59,6 @@ def save_uploaded_file(uploadedfile):
 
 
 def main():
-    delete_user_images()
     st.title("Face Analyze and Extraction Platform")
     activities = [
         "Home",
@@ -158,17 +144,18 @@ def main():
                     medals["happy"] + medals["not happy"]
                 )
                 medals = medals.sort_values(by=["Happiness Rate"], ascending=False)
-                st.dataframe(medals)
+                st.dataframe(medals.style.highlight_max(axis=0))
 
     elif choice == "Face Extraction from Image":
+
         image_file = st.file_uploader(
-            "Upload image", type=["jpeg", "png", "jpg", "webp"]
+            "Upload image", type=["jpeg", "png", "jpg", "webp","HEIC"]
         )
         if image_file is not None:
             image = Image.open(image_file)
             image_path = "user_data"
             image.save(f"{image_file.name}")
-            st.image(Image.open(image_file), caption="Enter any caption here")
+            st.image(Image.open(image_file), caption="Uploaded Image")
             face_num = 0
             if st.button("Process"):
                 faces = facer.extract_faces(img_path=f"{image_file.name}", align=True)
@@ -201,8 +188,115 @@ def main():
                     mime="application/zip",
                 )
 
+            option = st.selectbox(
+                "Select a classification model",
+                ("Binary Classification", "Multiclass Classification"),
+            )
+            if st.button('Analyze'):
+                if option == "Multiclass Classification":
+                    path = "user_data/"
+                    dir_list = os.listdir(path)
+                    results = []
+                    predict.load_model_func()
+                    count = 0
+                    for image in dir_list:
+                        output = predict.predict(path + image)
+                        results.append(output)
+                        count += 1
+
+                    array = np.array(results)
+                    unique, counts = np.unique(array, return_counts=True)
+                    result = np.column_stack((unique, counts))
+                    clean_data = [[item for item in row] for row in result]
+
+                    df = pd.DataFrame(clean_data, columns=("emotion", "number"))
+                    Subjects = {
+                        0: "angry",
+                        1: "disgust",
+                        2: "fear",
+                        3: "happy",
+                        4: "neutral",
+                        5: "sad",
+                        6: "surprise",
+                    }
+
+                    df["emotion"] = df["emotion"].map(Subjects)
+
+                    plost.bar_chart(
+                        data=df,
+                        bar="emotion",
+                        height=400,
+                        width=100,
+                        value=["number"],
+                        group=True,
+                    )
+
+                    with open("results/user_results.txt", "w") as filehandle:
+                        json.dump(results, filehandle)
+
+                if option == "Binary Classification":
+                    path = "user_data/"
+                    dir_list = os.listdir(path)
+                    results = []
+                    predict.load_model_func()
+                    count = 0
+
+                    for image in dir_list:
+                        output = predict.predict(path + image)
+
+                        results.append(output)
+                        count += 1
+
+                    array = np.array(results)
+                    unique, counts = np.unique(array, return_counts=True)
+                    result = np.column_stack((unique, counts))
+                    clean_data = [[item for item in row] for row in result]
+
+                    df = pd.DataFrame(clean_data, columns=("emotion", "number"))
+                    Subjects = {
+                        0: "angry",
+                        1: "disgust",
+                        2: "fear",
+                        3: "happy",
+                        4: "neutral",
+                        5: "sad",
+                        6: "surprise",
+                    }
+
+                    df["emotion"] = df["emotion"].map(Subjects)
+
+                    plost.bar_chart(
+                        data=df,
+                        bar="emotion",
+                        height=400,
+                        width=100,
+                        value=["number"],
+                        group=True,
+                    )
+
+                    with open("results/user_results.txt", "w") as filehandle:
+                        json.dump(results, filehandle)
+
+                def zip_directory(folder_path, zip_path):
+                    with zipfile.ZipFile(zip_path, mode="w") as zipf:
+                        len_dir_path = len(folder_path)
+                        for root, _, files in os.walk(folder_path):
+                            for file in files:
+                                file_path = os.path.join(root, file)
+                                zipf.write(file_path, file_path[len_dir_path:])
+
+                zip_directory("user_data", "faces.zip")
+
+                with open("faces.zip", "rb") as fp:
+                    btn = st.download_button(
+                        label="Download Zipped Faces",
+                        data=fp,
+                        file_name="faces.zip",
+                        mime="application/zip",
+                    )
+
+
     elif choice == "Emotion Analyze in Video":
-        delete_user_images()
         video_file = st.file_uploader("Upload video", type=["mp4"])
         if video_file is not None:
             option = st.selectbox(
@@ -337,7 +431,6 @@ def main():
             st.image(image3)
 
     elif choice == "Face Extraction from Video":
-        delete_user_images()
         video_file = st.file_uploader("Upload video", type=["mp4"])
 
         if video_file is not None:

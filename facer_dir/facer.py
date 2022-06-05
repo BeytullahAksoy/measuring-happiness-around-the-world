@@ -1,18 +1,27 @@
 import warnings
-
 warnings.filterwarnings("ignore")
-
 import os
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
 import numpy as np
 import tensorflow as tf
 import cv2
-
 from facer_dir import facer_model
 from facer_dir import preprocess
 from facer_dir import postprocess
+import shutil
+
+def delete_user_images():
+    """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
+    folder = "user_data/"
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print("Failed to delete %s. Reason: %s" % (file_path, e))
 
 
 tf_version = int(tf.__version__.split(".")[0])
@@ -146,28 +155,21 @@ def detect_faces(img_path, threshold=0.9, model=None, allow_upscaling=True):
     scores = np.vstack(scores_list)
     scores_ravel = scores.ravel()
     order = scores_ravel.argsort()[::-1]
-
     proposals = proposals[order, :]
     scores = scores[order]
     landmarks = np.vstack(landmarks_list)
     landmarks = landmarks[order].astype(np.float32, copy=False)
-
     pre_det = np.hstack((proposals[:, 0:4], scores)).astype(np.float32, copy=False)
-
     keep = postprocess.cpu_nms(pre_det, nms_threshold)
-
     det = np.hstack((pre_det, proposals[:, 4:]))
     det = det[keep, :]
     landmarks = landmarks[keep]
-
     resp = {}
     for idx, face in enumerate(det):
         label = 'face_' + str(idx + 1)
         resp[label] = {}
         resp[label]["score"] = face[4]
-
         resp[label]["facial_area"] = list(face[0:4].astype(int))
-
         resp[label]["landmarks"] = {}
         resp[label]["landmarks"]["right_eye"] = list(landmarks[idx][0])
         resp[label]["landmarks"]["left_eye"] = list(landmarks[idx][1])
@@ -179,19 +181,14 @@ def detect_faces(img_path, threshold=0.9, model=None, allow_upscaling=True):
 
 
 def extract_faces(img_path, threshold=0.9, model=None, align=True, allow_upscaling=True):
+    delete_user_images()
     resp = []
-
-
-
     img = get_image(img_path)
-
-
     obj = detect_faces(img_path=img, threshold=threshold, model=model, allow_upscaling=allow_upscaling)
 
     if type(obj) == dict:
         for key in obj:
             identity = obj[key]
-
             facial_area = identity["facial_area"]
             facial_img = img[facial_area[1]: facial_area[3], facial_area[0]: facial_area[2]]
 
@@ -202,7 +199,6 @@ def extract_faces(img_path, threshold=0.9, model=None, align=True, allow_upscali
                 nose = landmarks["nose"]
                 mouth_right = landmarks["mouth_right"]
                 mouth_left = landmarks["mouth_left"]
-
                 facial_img = postprocess.alignment_procedure(facial_img, right_eye, left_eye, nose)
 
             resp.append(facial_img[:, :, ::-1])
