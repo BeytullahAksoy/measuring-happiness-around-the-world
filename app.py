@@ -80,7 +80,6 @@ def main():
         "Face Extraction from Image",
         "Emotion Analyze in Video",
         "Face Extraction from Video",
-        "Live Emotion Recognition",
         "About Models",
     ]
     choice = st.sidebar.selectbox("Pick an option", activities)
