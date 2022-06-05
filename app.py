@@ -5,7 +5,7 @@ from facer_dir import facer
 from PIL import Image
 import os
 import zipfile
-from emotionclassification import predict
+from emotionclassification import predict,binary_predict
 import json
 from visualization import multi_visualization, binary_visualization
 import tempfile
@@ -251,11 +251,11 @@ def main():
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    predict.load_model_func()
+                    binary_predict.load_model_func_b()
                     count = 0
 
                     for image in dir_list:
-                        output = predict.predict(path + image)
+                        output = binary_predict.predict_b(path + image)
 
                         results.append(output)
                         count += 1
@@ -268,12 +268,10 @@ def main():
                     df = pd.DataFrame(clean_data, columns=("emotion", "number"))
                     Subjects = {
                         0: "happy",
-                        1: "not happy",
-
+                        1: "not happy"
                     }
-
                     df["emotion"] = df["emotion"].map(Subjects)
-
+                    print(df["emotion"])
                     plost.bar_chart(
                         data=df,
                         bar="emotion",
@@ -303,7 +301,8 @@ def main():
                         file_name="faces.zip",
                         mime="application/zip",
                     )
-
+            if st.button('Clear Dataset'):
+                delete_user_images()
 
     elif choice == "Emotion Analyze in Video":
         video_file = st.file_uploader("Upload video", type=["mp4"])
@@ -355,16 +354,19 @@ def main():
                     with open("results/user_results.txt", "w") as filehandle:
                         json.dump(results, filehandle)
 
+                    if st.button('Delete Images'):
+                        delete_user_images()
+
                 if option == "Binary Classification":
                     save_faces(video_file)
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    predict.load_model_func()
+                    binary_predict.load_model_func_b()
                     count = 0
 
                     for image in dir_list:
-                        output = predict.predict(path + image)
+                        output = binary_predict.predict_b(path + image)
 
                         results.append(output)
                         count += 1
@@ -376,15 +378,9 @@ def main():
 
                     df = pd.DataFrame(clean_data, columns=("emotion", "number"))
                     Subjects = {
-                        0: "angry",
-                        1: "disgust",
-                        2: "fear",
-                        3: "happy",
-                        4: "neutral",
-                        5: "sad",
-                        6: "surprise",
+                        0: "happy",
+                        1: "not happy",
                     }
-
                     df["emotion"] = df["emotion"].map(Subjects)
 
                     plost.bar_chart(
@@ -416,6 +412,8 @@ def main():
                         file_name="faces.zip",
                         mime="application/zip",
                     )
+                if st.button('Clear Dataset'):
+                    delete_user_images()
 
     elif choice == "About Models":
         option = st.selectbox(

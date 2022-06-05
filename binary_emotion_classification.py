@@ -10,7 +10,7 @@ def binary_emotion_predict():
     dir_list = os.listdir(path)
     results = []
     count = 0
-    model = load_model('emotionclassification/binary_emotion.h5')
+    model = load_model('binary_emotion.h5')
 
     for image_path in dir_list:
         image = cv2.imread(path+image_path)
