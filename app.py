@@ -72,7 +72,6 @@ def save_uploaded_file(uploadedfile):
 
 
 def main():
-    delete_user_images()
     st.title("Face Analyze and Extraction Platform")
     activities = [
         "Home",
