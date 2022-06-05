@@ -6,7 +6,7 @@ from numpy import asarray
 model = load_model('./Face_Emotion_detection.h5')
 
 def load_model_func():
-    model = load_model('../Face_Emotion_detection.h5')
+    model = load_model('./Face_Emotion_detection.h5')
 
 
 def predict(image_path):
