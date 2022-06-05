@@ -16,7 +16,7 @@ else:
 def load_weights(model):
 
     home = ''
-    exact_file = '/home/beytu/measuring-happiness-around-the-world/facer_dir/facer.h5'
+    exact_file = './facer.h5'
 
     if os.path.isfile(exact_file) != True:
         print("please download facer.h5 ")
