@@ -5,13 +5,62 @@ from facer_dir import facer
 from PIL import Image
 import os
 import zipfile
-from emotionclassification import predict,binary_predict
+
 import json
 from visualization import multi_visualization, binary_visualization
 import tempfile
 import numpy as np
 import pandas as pd
 import shutil
+
+from keras.models import load_model
+import numpy as np
+from PIL import Image, ImageOps
+from numpy import asarray
+
+
+
+def predict_b(image_path):
+    """A function takes path of image and predicts emotion"""
+    model_b = load_model('./binary_emotion.h5')
+
+    image = Image.open(image_path)
+    image = ImageOps.grayscale(image)
+    image = image.resize((48, 48))
+    numpydata = asarray(image).ravel()
+    numpydata = numpydata.reshape(-1, 48, 48, 1)
+    predictions = model_b.predict(numpydata)
+    predictions = predictions[0]
+    print(predictions)
+    if predictions <=0.5:
+        return 0
+    else :
+        return 1
+
+
+
+
+def predict(image_path):
+    """A function takes path of image and predicts emotion"""
+    model = load_model('../Face_Emotion_detection.h5')
+    image = Image.open(image_path)
+    image = ImageOps.grayscale(image)
+    image = image.resize((48, 48))
+    numpydata = asarray(image).ravel()
+    numpydata = numpydata.reshape(-1, 48, 48, 1)
+    predictions = model.predict(numpydata)
+
+
+    predictions = predictions[0]
+
+    max_value = max(predictions)
+    predicted_class = int(np.where(predictions == max_value)[0][0])
+
+
+
+
+    return  predicted_class
+
 def delete_user_images():
     """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
     folder = "user_data/"
@@ -211,10 +260,9 @@ def main():
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    predict.load_model_func()
                     count = 0
                     for image in dir_list:
-                        output = predict.predict(path + image)
+                        output = predict(path + image)
                         results.append(output)
                         count += 1
 
@@ -252,11 +300,11 @@ def main():
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    binary_predict.load_model_func_b()
+
                     count = 0
 
                     for image in dir_list:
-                        output = binary_predict.predict_b(path + image)
+                        output = predict_b(path + image)
 
                         results.append(output)
                         count += 1
@@ -318,7 +366,6 @@ def main():
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    predict.load_model_func()
                     count = 0
                     for image in dir_list:
                         output = predict.predict(path + image)
@@ -363,11 +410,11 @@ def main():
                     path = "user_data/"
                     dir_list = os.listdir(path)
                     results = []
-                    binary_predict.load_model_func_b()
+
                     count = 0
 
                     for image in dir_list:
-                        output = binary_predict.predict_b(path + image)
+                        output = predict_b(path + image)
 
                         results.append(output)
                         count += 1
