@@ -1,5 +1,5 @@
 import os
-from emotionclassification import predict
+import predict_multi
 import json
 
 #it returns array of multiclass prediction results of user's images
@@ -10,7 +10,7 @@ def emotion_prediction():
     predict.load_model_func()
 
     for image in dir_list:
-        output = predict.predict(path+image)
+        output = predict.predict(path + image)
         results.append(output)
 
     with open('results/multiclass_results.txt', 'w') as filehandle:

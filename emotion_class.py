@@ -1,8 +1,3 @@
-import os
-from emotionclassification import predict
-import json
-
-
 #it returns array of multiclass prediction results of user's images
 
 # Get the list of all files and directories

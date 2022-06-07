@@ -3,14 +3,15 @@ import numpy as np
 from PIL import Image, ImageOps
 from numpy import asarray
 
-model = load_model('../Face_Emotion_detection.h5')
+model = load_model('Face_Emotion_detection.h5')
 
 def load_model_func():
-    model = load_model('../Face_Emotion_detection.h5')
+    model = load_model('Face_Emotion_detection.h5')
 
 
 def predict(image_path):
     """A function takes path of image and predicts emotion"""
+    model = load_model('Face_Emotion_detection.h5')
     image = Image.open(image_path)
     image = ImageOps.grayscale(image)
     image = image.resize((48, 48))
@@ -18,6 +19,8 @@ def predict(image_path):
     numpydata = numpydata.reshape(-1, 48, 48, 1)
     predictions = model.predict(numpydata)
 
+    print("predictions:")
+    print(predictions)
 
     predictions = predictions[0]
 

@@ -2,22 +2,19 @@ import plost as plost
 import streamlit as st
 import cv2
 from facer_dir import facer
-from PIL import Image
 import os
 import zipfile
 
 import json
 from visualization import multi_visualization, binary_visualization
 import tempfile
-import numpy as np
 import pandas as pd
 import shutil
-
 from keras.models import load_model
 import numpy as np
 from PIL import Image, ImageOps
 from numpy import asarray
-
+import predict_multi
 
 
 def predict_b(image_path):
@@ -31,7 +28,7 @@ def predict_b(image_path):
     numpydata = numpydata.reshape(-1, 48, 48, 1)
     predictions = model_b.predict(numpydata)
     predictions = predictions[0]
-    print(predictions)
+   # print(predictions)
     if predictions <=0.5:
         return 0
     else :
@@ -43,26 +40,7 @@ def predict_b(image_path):
 
 
 
-def predict(image_path):
-    """A function takes path of image and predicts emotion"""
-    model = load_model('../Face_Emotion_detection.h5')
-    image = Image.open(image_path)
-    image = ImageOps.grayscale(image)
-    image = image.resize((48, 48))
-    numpydata = asarray(image).ravel()
-    numpydata = numpydata.reshape(-1, 48, 48, 1)
-    predictions = model.predict(numpydata)
 
-
-    predictions = predictions[0]
-
-    max_value = max(predictions)
-    predicted_class = int(np.where(predictions == max_value)[0][0])
-
-
-
-
-    return  predicted_class
 
 def delete_user_images():
     """A function to clean the user_data/ directory that stores files created by user when using streamlit."""
@@ -214,8 +192,12 @@ def main():
 
     elif choice == "Face Extraction from Image":
 
+        def uploader_callback():
+            print('Uploaded file')
+            delete_user_images()
+
         image_file = st.file_uploader(
-            "Upload image", type=["jpeg", "png", "jpg", "webp","HEIC"]
+            "Upload image", type=["jpeg", "png", "jpg", "webp","HEIC"],on_change=uploader_callback
         )
         if image_file is not None:
             image = Image.open(image_file)
@@ -260,15 +242,16 @@ def main():
             )
             if st.button('Analyze'):
                 if option == "Multiclass Classification":
-                    path = "user_data/"
+                    path = "./user_data/"
                     dir_list = os.listdir(path)
                     results = []
                     count = 0
                     for image in dir_list:
-                        output = predict(path + image)
+                        output = predict_multi.predict(path + image)
                         results.append(output)
                         count += 1
-
+                    print("results:")
+                    print(results)
                     array = np.array(results)
                     unique, counts = np.unique(array, return_counts=True)
                     result = np.column_stack((unique, counts))
@@ -323,7 +306,7 @@ def main():
                         1: "not happy"
                     }
                     df["emotion"] = df["emotion"].map(Subjects)
-                    print(df["emotion"])
+                   # print(df["emotion"])
                     plost.bar_chart(
                         data=df,
                         bar="emotion",
@@ -346,15 +329,8 @@ def main():
 
                 zip_directory("user_data", "faces.zip")
 
-                with open("faces.zip", "rb") as fp:
-                    btn = st.download_button(
-                        label="Download Zipped Faces",
-                        data=fp,
-                        file_name="faces.zip",
-                        mime="application/zip",
-                    )
-            if st.button('Clear Dataset'):
-                delete_user_images()
+
+
 
     elif choice == "Emotion Analyze in Video":
         video_file = st.file_uploader("Upload video", type=["mp4"])
@@ -371,7 +347,7 @@ def main():
                     results = []
                     count = 0
                     for image in dir_list:
-                        output = predict.predict(path + image)
+                        output = predict_multi.predict(path + image)
                         results.append(output)
                         count += 1
 
@@ -463,8 +439,7 @@ def main():
                         file_name="faces.zip",
                         mime="application/zip",
                     )
-                if st.button('Clear Dataset'):
-                    delete_user_images()
+
 
     elif choice == "About Models":
         option = st.selectbox(
