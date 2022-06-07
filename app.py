@@ -57,30 +57,32 @@ def delete_user_images():
 
 
 def save_faces(video_file):
-    """A function detects faces in one of 400 frames and saves to the directory user_data/ """
-    f = video_file
-    tfile = tempfile.NamedTemporaryFile(delete=False)
-    tfile.write(f.read())
-    cap = cv2.VideoCapture(tfile.name)
-    c = 1
-    file = 0
+    try:
+        """A function detects faces in one of 400 frames and saves to the directory user_data/ """
+        f = video_file
+        tfile = tempfile.NamedTemporaryFile(delete=False)
+        tfile.write(f.read())
+        cap = cv2.VideoCapture(tfile.name)
+        c = 1
+        file = 0
 
-    while True:
-        grabbed, frame = cap.read()
-        if c % 400 == 0:
-            try:
-                faces = facer.extract_faces(img_path=frame, align=True, threshold=0.95)
-            except:
-                break
-            if len(faces) > 0:
-                for face in faces:
-                    im = Image.fromarray(face)
-                    im.save(f"user_data/person-{file}.jpeg")
-                    file += 1
-           # cv2.waitKey()
-        c += 1
-    cap.release()
-
+        while True:
+            grabbed, frame = cap.read()
+            if c % 400 == 0:
+                try:
+                    faces = facer.extract_faces(img_path=frame, align=True, threshold=0.95)
+                except:
+                    break
+                if len(faces) > 0:
+                    for face in faces:
+                        im = Image.fromarray(face)
+                        im.save(f"user_data/person-{file}.jpeg")
+                        file += 1
+               # cv2.waitKey()
+            c += 1
+        cap.release()
+    except:
+        print("error")
 
 def zipdir(path, ziph):
     """A function that creates zip with given folder"""
